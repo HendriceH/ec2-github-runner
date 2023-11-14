@@ -48,7 +48,7 @@ async function startEc2Instance(label, githubRegistrationToken) {
     IamInstanceProfile: { Name: config.input.iamRoleName },
     TagSpecifications: config.tagSpecifications,
     BlockDeviceMappings: [{
-        DeviceName: '/dev/nvme0n1',
+        DeviceName: '/dev/nvme',
         Ebs: {
           DeleteOnTermination: true,
           VolumeSize: 30,
