@@ -8,7 +8,7 @@ function buildUserDataScript(githubRegistrationToken, label) {
     // If runner home directory is specified, we expect the actions-runner software (and dependencies)
     // to be pre-installed in the AMI, so we simply cd into that directory and then start the runner
     return [
-      '#!/bin/bash',
+      '#!/bin/bash --login',
       `cd "${config.input.runnerHomeDir}"`,
       `echo "${config.input.preRunnerScript}" > pre-runner-script.sh`,
       'source pre-runner-script.sh',
@@ -18,7 +18,7 @@ function buildUserDataScript(githubRegistrationToken, label) {
     ];
   } else {
     return [
-      '#!/bin/bash',
+      '#!/bin/bash --login',
       'mkdir actions-runner && cd actions-runner',
       `echo "${config.input.preRunnerScript}" > pre-runner-script.sh`,
       'source pre-runner-script.sh',
