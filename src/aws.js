@@ -8,18 +8,17 @@ function buildUserDataScript(githubRegistrationToken, label) {
     // If runner home directory is specified, we expect the actions-runner software (and dependencies)
     // to be pre-installed in the AMI, so we simply cd into that directory and then start the runner
     return [
-      '#!/bin/bash --login',
+      '#!/bin/bash',
       `cd "${config.input.runnerHomeDir}"`,
       `echo "${config.input.preRunnerScript}" > pre-runner-script.sh`,
       'source pre-runner-script.sh',
       'export RUNNER_ALLOW_RUNASROOT=1',
       `./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label} --name $(uuidgen)`,
-      'bash',
       './run.sh',
     ];
   } else {
     return [
-      '#!/bin/bash --login',
+      '#!/bin/bash',
       `echo "${config.input.preRunnerScript}" > pre-runner-script.sh`,
       'source pre-runner-script.sh',
       'mkdir /share/software/actions-runner && cd /share/software/actions-runner',
@@ -28,7 +27,6 @@ function buildUserDataScript(githubRegistrationToken, label) {
       'tar xzf ./actions-runner-linux-${RUNNER_ARCH}-2.311.0.tar.gz',
       'export RUNNER_ALLOW_RUNASROOT=1',
       `./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label} --name $(uuidgen)`,
-      'bash',
       './run.sh',
     ];
   }
